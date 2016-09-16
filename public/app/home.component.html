@@ -1,0 +1,5 @@
+<div id="div-input" #li *ngFor="#row of Rows" [hidden]="row.show">
+    <label>></label><span [innerText]="row.response"></span><br>
+    <label>></label><span [innerText]="row.request"></span><br>
+</div>
+<label>></label><input type="text" #box (keyup.enter)="send(box.value,box)" />
