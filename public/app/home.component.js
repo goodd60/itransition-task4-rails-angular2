@@ -28,9 +28,24 @@ System.register(['angular2/core', './row', 'angular2/http'], function(exports_1,
                 function HomeComponent(http) {
                     this.http = http;
                     this.response = "";
+                    this.up = 0;
                     this.Rows = new Array();
                     this.Rows.push(new row_1.Row());
                 }
+                HomeComponent.prototype.onKey = function (event) {
+                    if (event.keyCode == 38 || event.keyCode == 40) {
+                        console.log(this.up);
+                        if (this.up < this.Rows.length - 1 && event.keyCode == 38)
+                            this.up++;
+                        if (event.keyCode == 40 && this.up > 0)
+                            this.up--;
+                        if (this.Rows.length > 1) {
+                            console.log(this.Rows[this.Rows.length - 1 - this.up]);
+                            console.log(this.Rows[this.Rows.length - 1 - this.up].response);
+                            this.response = this.Rows[this.Rows.length - 1 - this.up].response;
+                        }
+                    }
+                };
                 HomeComponent.prototype.send = function (new_str, input) {
                     input.value = "";
                     var row = this.Rows[this.Rows.length - 1];
@@ -44,9 +59,16 @@ System.register(['angular2/core', './row', 'angular2/http'], function(exports_1,
                     headers.append('Cache-Control', 'no-cache');
                     headers.append('Content-Type', 'application/json');
                     this.http.post('http://localhost:3000/api', params, { headers: headers })
-                        .subscribe(function (request) { return row.request = request.json().some; });
+                        .subscribe(function (request) {
+                        row.request = request.json().some;
+                        //var result = request.text().match( /\"some\":(.+)}/i );
+                        //alert( result[0] ); // ОЙ  (совпадение)
+                        //alert( result[1] ); // 0 (позиция)
+                        //row.request=result[1];
+                    });
                     this.Rows.push(new row_1.Row());
                     this.response = "";
+                    this.up = 0;
                 };
                 __decorate([
                     core_1.Input(), 

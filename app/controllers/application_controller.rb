@@ -20,7 +20,7 @@ skip_before_action :verify_authenticity_token
             if @res==""
                 format.json { render json: {some:"Incorect input"} }
             else
-            format.json { render json: {some:(@res)} }  
+            format.json { render json: {some:(@res).to_s} }  
             end
         end      
     else
